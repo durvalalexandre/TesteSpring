@@ -20,7 +20,7 @@ public class ClienteController {
         var cliente2 = new Cliente();
         cliente2.setId(2L);
         cliente2.setNome("maria");
-        cliente2.setTelefone("11 99999 4443");
+        cliente2.setTelefone("11 99999 4445");
         cliente2.setEmail("maria@gmail.com");
 
         return Arrays.asList(cliente1, cliente2);
