@@ -11,6 +11,6 @@ FROM openjdk:21-jdk
 
 EXPOSE 8080
 
-COPY --from=build /target/awpag-api-0.0.1.jar awpag.jar
+COPY --from=build /target/awpag-api-0.0.1-SNAPSHOT.jar awpag.jar
 
 ENTRYPOINT [ "java", "-jar", "awpag.jar" ]
