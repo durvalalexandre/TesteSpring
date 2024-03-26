@@ -1,28 +1,62 @@
 package com.alexandreTeste.awpag.api.controller;
 
+import com.alexandreTeste.awpag.domain.exception.NegocioException;
 import com.alexandreTeste.awpag.domain.model.Cliente;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Arrays;
+import com.alexandreTeste.awpag.domain.repository.ClienteRepository;
+import com.alexandreTeste.awpag.domain.service.CadastroClienteService;
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 
+@AllArgsConstructor
 @RestController
+@RequestMapping("/clientes")
 public class ClienteController {
-    @GetMapping("/clientes")
-    public List<Cliente> listar(){
-        var cliente1 = new Cliente();
-        cliente1.setId(1L);
-        cliente1.setNome("joao b");
-        cliente1.setTelefone("11 93333 1111");
-        cliente1.setEmail("joao@gmail.com");
 
-        var cliente2 = new Cliente();
-        cliente2.setId(2L);
-        cliente2.setNome("maria");
-        cliente2.setTelefone("11 99999 4445");
-        cliente2.setEmail("maria@gmail.com");
+    private final CadastroClienteService cadastroClienteService;
+    private final ClienteRepository clienteRepository;
 
-        return Arrays.asList(cliente1, cliente2);
-     }
+    @GetMapping
+    public List<Cliente> listar() {
+        //return clienteRepository.findByNomeContaining("m");
+        return clienteRepository.findAll();
+    }
+
+    @GetMapping("/{clienteId}")
+    public ResponseEntity<Cliente> buscar(@PathVariable Long clienteId) {
+        Optional<Cliente> cliente = clienteRepository.findById(clienteId);
+
+        return cliente.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping
+    public Cliente adicionar(@Valid @RequestBody Cliente cliente) {
+        return cadastroClienteService.salvar(cliente);
+    }
+
+    @PutMapping("/{clienteId}")
+    public ResponseEntity<Cliente> atualizar(@PathVariable Long clienteId,@Valid @RequestBody Cliente cliente) {
+        if (!clienteRepository.existsById(clienteId)) {
+            return ResponseEntity.notFound().build();
+        }
+        cliente.setId(clienteId);
+        cadastroClienteService.salvar(cliente);
+        return ResponseEntity.ok(cliente);
+    }
+
+    @DeleteMapping("/{clienteId}")
+    public ResponseEntity<Void> excluir(@PathVariable Long clienteId) {
+        if (!clienteRepository.existsById(clienteId)) {
+            return ResponseEntity.notFound().build();
+        }
+        cadastroClienteService.excluir(clienteId);
+        return ResponseEntity.noContent().build();
+    }
 }
+
+

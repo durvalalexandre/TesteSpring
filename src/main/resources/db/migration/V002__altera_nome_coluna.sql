@@ -1,0 +1,1 @@
+alter table awpag.cliente rename column telefone to fone;
