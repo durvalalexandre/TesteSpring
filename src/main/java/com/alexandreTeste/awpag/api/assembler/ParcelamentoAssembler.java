@@ -24,8 +24,6 @@ public class ParcelamentoAssembler {
                 .map(this::toModel).toList();
     }
     public Parcelamento toEntity(ParcelamentoInput parcelamentoInput){
-
         return modelMapper.map(parcelamentoInput, Parcelamento.class);
     }
-
 }
