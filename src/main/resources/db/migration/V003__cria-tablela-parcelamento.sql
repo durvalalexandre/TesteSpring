@@ -1,13 +1,12 @@
-create table parcelamento(
-    id bigint not null auto_increment,
-    cliente_id bigint not null,
-    descricao varchar(20) not null ,
-    valor_total decimal (10,2) not null,
-    quantidade_parcelas tinyint,
-    data_criacao datetime not null,
-
-primary key (id)
-
+CREATE TABLE parcelamento (
+    id BIGSERIAL PRIMARY KEY,
+    cliente_id BIGINT NOT NULL,
+    descricao VARCHAR(20) NOT NULL,
+    valor_total DECIMAL(10,2) NOT NULL,
+    quantidade_parcelas SMALLINT,
+    data_criacao TIMESTAMP NOT NULL
 );
 
-alter table parcelamento add constraint fk_parcelamento_cliente foreign key(cliente_id) references cliente (id);
+-- Adicionando a restrição de chave estrangeira para o campo "cliente_id"
+ALTER TABLE parcelamento
+ADD CONSTRAINT fk_parcelamento_cliente FOREIGN KEY (cliente_id) REFERENCES cliente (id);

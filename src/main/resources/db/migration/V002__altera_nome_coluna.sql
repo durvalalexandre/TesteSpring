@@ -1,1 +1,2 @@
-alter table awpag.cliente rename column telefone to fone;
+ALTER TABLE cliente
+RENAME COLUMN telefone TO fone;

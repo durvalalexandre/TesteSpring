@@ -25,6 +25,6 @@ public class ParcelamentoInput {
 
     @Valid
     @NotNull
-    private ClienteIdInput cliiente;
+    private ClienteIdInput cliente;
 
 }
